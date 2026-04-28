@@ -727,16 +727,23 @@ footer {
   position: fixed;
   inset: 0;
   z-index: 9000;
+
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* 👈 muda isso */
   justify-content: center;
-  padding: 20px;
-  /* BLUR DO SITE POR BAIXO */
+
+  padding: 40px 20px; /* 👈 mais espaço */
+
+  overflow-y: auto; /* 👈 permite scroll */
+
   backdrop-filter: blur(20px) brightness(0.85) saturate(0.7);
   -webkit-backdrop-filter: blur(20px) brightness(0.85) saturate(0.7);
+
   background: rgba(255,255,255,0.38);
+
   transition: opacity .45s cubic-bezier(.22,1,.36,1);
 }
+
 #overlay.hide {
   opacity: 0;
   pointer-events: none;
@@ -754,6 +761,8 @@ footer {
     0 32px 96px rgba(0,0,0,0.13),
     0 8px 28px rgba(0,0,0,0.07);
   animation: popIn .42s cubic-bezier(.22,1,.36,1) both;
+  max-height: 90vh;
+overflow-y: auto; 
 }
 @keyframes popIn {
   from { opacity:0; transform: scale(.93) translateY(22px); }
@@ -796,7 +805,7 @@ footer {
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
 
 /* popup body */
-.popup-bd { padding: 28px 24px 20px; }
+.popup-bd { padding: 22px 20px 16px; }
 .popup-badge {
   display: inline-block;
   background: rgba(255,92,26,0.08);
@@ -915,40 +924,69 @@ footer {
   .p-row { grid-template-columns: 1fr; }
   .stats-row { grid-template-columns: repeat(2,1fr); }
 }
+body.lock {
+  overflow: hidden;
+}
 </style>
 </head>
 <body>
 
 <!-- WATERMARK -->
-<div id="wm"><div id="wm-grid"></div></div>
+<div id="wm" class="on"><div id="wm-grid"></div></div>
 
 <!-- POPUP -->
 <div id="overlay">
   <div class="popup">
     <div class="popup-hd">
-      <div class="popup-logo">u<span>build</span></div>
+      <div class="popup-logo">
+<img src="logo-white.png" alt="Ubuild" style="height:22px; display:block;"></div>
       <div class="popup-live">Prévia ao vivo</div>
     </div>
     <div class="popup-bd">
       <div class="popup-badge">Prévia criada pela Ubuild</div>
-      <div class="popup-title">Prévia criada pela Ubuild</div>
+      <div class="popup-title">
+Seu site profissional já está pronto.
+</div>
+
+<p class="popup-desc">
+Criamos essa prévia personalizada para mostrar como sua empresa pode atrair clientes online.<br><br>
+Preencha os dados para liberar o acesso completo.<br><br>
+<strong>A versão final sem marca d’água e publicada depende de contratação.</strong>
+</p>
       <p class="popup-desc">Esta é uma prévia demonstrativa de site criada pela Ubuild para mostrar como sua empresa pode captar mais pedidos de orçamento online.<br><br>Para visualizar, preencha seus dados abaixo e autorize nosso contato.</p>
-      <form class="p-form" onsubmit="submitForm(event)">
-        <input class="p-input" type="text" placeholder="Nome" required>
-        <input class="p-input" type="text" placeholder="Empresa" required>
-        <div class="p-row">
-          <input class="p-input" type="tel" placeholder="WhatsApp" required>
-          <input class="p-input" type="email" placeholder="E-mail" required>
-        </div>
-        <label class="p-check">
-          <input type="checkbox" required>
-          <span>Concordo em receber contato da Ubuild sobre a personalização deste site.</span>
-        </label>
-        <button type="submit" class="btn-submit">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
-          Visualizar prévia
-        </button>
-      </form>
+     <form class="p-form" onsubmit="submitForm(event)">
+
+<input class="p-input" type="text" name="nome" placeholder="Nome completo" required>
+
+<input class="p-input" type="text" name="empresa" placeholder="Nome da empresa (opcional)">
+
+<div class="p-row">
+  <input class="p-input" type="tel" name="telefone" placeholder="WhatsApp" required>
+  <input class="p-input" type="email" name="email" placeholder="E-mail" required>
+</div>
+
+<input class="p-input" type="text" name="cidade" placeholder="Cidade / Região">
+
+<select class="p-input" name="servico" required>
+  <option value="">Qual tipo de site você precisa?</option>
+  <option>Site institucional</option>
+  <option>Landing page</option>
+  <option>Loja virtual</option>
+  <option>Outro</option>
+</select>
+
+<textarea class="p-input" name="mensagem" placeholder="Fale sobre seu projeto..." rows="3"></textarea>
+
+  <label class="p-check">
+    <input type="checkbox" required>
+    <span>Autorizo contato da Ubuild via WhatsApp e e-mail.</span>
+  </label>
+
+  <button type="submit" class="btn-submit">
+    Visualizar prévia
+  </button>
+
+</form>
     </div>
     <div class="popup-ft">
       <p class="popup-fine">Esta página é apenas uma demonstração. A publicação em domínio próprio, personalização completa e ajustes finais <strong>dependem de contratação.</strong></p>
@@ -1125,13 +1163,14 @@ footer {
 </a>
 
 <script>
+    document.body.classList.add('lock');
 /* build watermark cells */
 (function(){
   const g = document.getElementById('wm-grid');
   for(let i=0;i<84;i++){
     const c = document.createElement('div');
     c.className='wm-cell';
-    c.innerHTML='<span class="wm-word">ubuild</span><span class="wm-dot"></span><span class="wm-word">prévia</span>';
+    c.innerHTML='<span class="wm-word">UBUILD</span><span class="wm-dot"></span><span class="wm-word">PREVIEW</span>';
     g.appendChild(c);
   }
 })();
@@ -1139,10 +1178,51 @@ footer {
 /* form submit */
 function submitForm(e){
   e.preventDefault();
-  const ov=document.getElementById('overlay');
+
+  // pega o formulário
+  const form = e.target;
+
+  // pega os valores
+  const nome = form.nome.value;
+  const empresa = form.empresa.value;
+  const telefone = form.telefone.value;
+  const email = form.email.value;
+  const cidade = form.cidade.value;
+  const servico = form.servico.value;
+  const mensagem = form.mensagem.value;
+
+  // monta mensagem
+  const texto =
+`Nova lead da prévia Ubuild 🚀
+
+👤 Nome: ${nome}
+🏢 Empresa: ${empresa}
+📱 WhatsApp: ${telefone}
+📧 Email: ${email}
+📍 Cidade: ${cidade}
+💼 Serviço: ${servico}
+
+📝 Projeto:
+${mensagem}`;
+
+  // número (SEM espaço e sem símbolo)
+  const numero = "5511911300955";
+
+  // cria link do WhatsApp
+  const url = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
+
+  // abre WhatsApp
+  window.open(url, "_blank");
+
+  // fecha popup
+  const ov = document.getElementById('overlay');
   ov.classList.add('hide');
-  setTimeout(()=>{ ov.style.display='none'; },460);
-  document.getElementById('wm').classList.add('on');
+
+  setTimeout(()=>{
+    ov.style.display='none';
+  },460);
+
+  document.body.classList.remove('lock');
 }
 
 /* scroll fade-in */
