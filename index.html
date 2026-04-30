@@ -1,1244 +1,334 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AP Engenharia – Prévia | Ubuild</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<title>AP Engenharia</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
 
 :root {
-  --bg:      #ffffff;
-  --bg2:     #f7f7f7;
-  --bg3:     #f0f0f0;
-  --black:   #0a0a0a;
-  --ink:     #111111;
-  --mid:     #555555;
-  --muted:   #999999;
-  --border:  rgba(0,0,0,0.08);
-  --border2: rgba(0,0,0,0.14);
-  --ubuild:  #FF5C1A;
-  --ubuild2: #e04a0c;
-  --wpp:     #25D366;
-  --wpp2:    #1fba58;
-  --font:    'Plus Jakarta Sans', sans-serif;
+    --azul:#1C2A44;
+    --verde:#25D366;
+    --cinza:#2E2E2E;
 }
 
-body {
-  font-family: var(--font);
-  background: var(--bg);
-  color: var(--ink);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family:'Inter',sans-serif;
+    color:var(--cinza);
 }
 
-/* ── WATERMARK ── */
-#wm {
-  position: fixed;
-  inset: 0;
-  z-index: 350;
-  pointer-events: none;
-  display: none;
-  overflow: hidden;
-}
-#wm.on { display: block; }
-#wm-grid {
-  position: absolute;
-  inset: -80px;
-  display: grid;
-  grid-template-columns: repeat(6,1fr);
-  transform: rotate(-28deg);
-  transform-origin: center;
-}
-.wm-cell {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 44px 0;
-  gap: 5px;
-  user-select: none;
-}
-.wm-word {
-  font-size: 0.63rem;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(0,0,0,0.055);
-  white-space: nowrap;
-}
-.wm-dot {
-  width: 3px; height: 3px;
-  border-radius: 50%;
-  background: rgba(0,0,0,0.04);
+/* NAV */
+nav{
+    position:fixed;
+    width:100%;
+    padding:18px 10%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:white;
+    border-bottom:1px solid #eee;
+    z-index:1000;
 }
 
-/* ── UBUILD BAR ── */
-.ub-bar {
-  position: sticky;
-  top: 0;
-  z-index: 600;
-  background: var(--black);
-  padding: 10px 6%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.ub-logo {
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: #fff;
-}
-.ub-logo span { color: var(--ubuild); }
-.ub-pill {
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
-  border: 1px solid rgba(255,255,255,0.12);
-  padding: 3px 11px;
-  border-radius: 100px;
+nav strong{color:var(--azul);font-weight:600;}
+nav a{margin-left:25px;text-decoration:none;color:#555;font-size:14px;transition:.3s;}
+nav a:hover{color:var(--azul);}
+
+/* HERO */
+.hero{
+    height:100vh;
+    display:flex;
+    align-items:center;
+    padding:0 10%;
+    background:
+    linear-gradient(to right, rgba(255,255,255,0.95), rgba(255,255,255,0.6)),
+    url('https://images.unsplash.com/photo-1503387762-592deb58ef4e') center/cover;
 }
 
-/* ── NAV ── */
-nav {
-  position: sticky;
-  top: 40px;
-  z-index: 500;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 6%;
-  height: 62px;
-  background: rgba(255,255,255,0.94);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border);
-}
-.nav-brand {
-  font-size: 1.2rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: var(--black);
-}
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  list-style: none;
-}
-.nav-links a {
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: rgba(0,0,0,0.38);
-  text-decoration: none;
-  transition: color .2s;
-}
-.nav-links a:hover { color: var(--black); }
-.nav-cta {
-  background: var(--wpp) !important;
-  color: #fff !important;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 0.74rem !important;
-}
-.nav-cta:hover { background: var(--wpp2) !important; }
+.hero-content{max-width:600px;animation:fadeUp 1s;}
+.hero h1{font-size:3rem;color:var(--azul);line-height:1.2;}
+.hero p{margin:20px 0;color:#555;}
 
-/* ── HERO ── */
-#hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  background: var(--bg);
-}
-#hero::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 52px 52px;
-  pointer-events: none;
-  z-index: 0;
-}
-.hero-photo {
-  position: absolute;
-  right: 0; top: 0;
-  width: 52%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(1) brightness(0.9);
-  z-index: 0;
-  mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,1) 52%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,1) 52%);
-}
-.hero-inner {
-  position: relative;
-  z-index: 2;
-  padding: 0 6%;
-  max-width: 700px;
-  animation: fadeUp .8s .1s both;
-}
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(28px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 24px;
-}
-.hero-eyebrow::before {
-  content: '';
-  display: block;
-  width: 28px; height: 1px;
-  background: var(--muted);
-}
-.hero-h1 {
-  font-size: clamp(3.2rem, 7vw, 6rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  line-height: 0.95;
-  color: var(--black);
-  margin-bottom: 28px;
-}
-.hero-h1 .outline {
-  -webkit-text-stroke: 1.5px rgba(0,0,0,0.28);
-  color: transparent;
-  display: block;
-}
-.hero-sub {
-  font-size: 1rem;
-  font-weight: 400;
-  color: var(--mid);
-  line-height: 1.72;
-  max-width: 420px;
-  margin-bottom: 44px;
-}
-.hero-btns { display:flex; gap:12px; flex-wrap:wrap; }
-.btn-black {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--black);
-  color: #fff;
-  text-decoration: none;
-  padding: 14px 28px;
-  border-radius: 6px;
-  font-size: 0.86rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  transition: background .2s, transform .15s;
-}
-.btn-black:hover { background: #222; transform: translateY(-2px); }
-.btn-outline-b {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  border: 1.5px solid rgba(0,0,0,0.18);
-  color: rgba(0,0,0,0.52);
-  text-decoration: none;
-  padding: 14px 28px;
-  border-radius: 6px;
-  font-size: 0.86rem;
-  font-weight: 600;
-  transition: border-color .2s, color .2s, transform .15s;
-}
-.btn-outline-b:hover { border-color: var(--black); color: var(--black); transform: translateY(-2px); }
-.hero-scroll {
-  position: absolute;
-  bottom: 36px; left: 6%;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
-  z-index: 2;
-  animation: fadeUp .8s .8s both;
-}
-.scroll-bar {
-  width: 36px; height: 1px;
-  background: rgba(0,0,0,0.14);
-  position: relative;
-  overflow: hidden;
-}
-.scroll-bar::after {
-  content: '';
-  position: absolute;
-  left: -100%; top: 0;
-  width: 100%; height: 100%;
-  background: var(--black);
-  animation: slide 2s 1.2s infinite;
-}
-@keyframes slide { from { left:-100%; } to { left:100%; } }
-
-/* ── STATS ── */
-#stats {
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  background: var(--bg2);
-}
-.stats-row {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-}
-.stat {
-  padding: 52px 44px;
-  border-right: 1px solid var(--border);
-}
-.stat:last-child { border-right: none; }
-.stat-n {
-  font-size: 3.6rem;
-  font-weight: 800;
-  letter-spacing: -0.06em;
-  line-height: 1;
-  color: var(--black);
-  margin-bottom: 8px;
-}
-.stat-n sup { font-size: 1.3rem; vertical-align: super; font-weight: 700; }
-.stat-l {
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: var(--muted);
-  line-height: 1.45;
+/* BOTÕES */
+.btn{
+    padding:14px 26px;
+    border-radius:8px;
+    text-decoration:none;
+    margin-right:10px;
+    display:inline-block;
+    font-weight:500;
+    transition:.3s;
 }
 
-/* ── SECTIONS COMMON ── */
-section { padding: 96px 6%; position: relative; z-index: 1; }
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 14px;
-}
-.eyebrow::before {
-  content: '';
-  width: 18px; height: 1px;
-  background: rgba(0,0,0,0.2);
-}
-.sec-title {
-  font-size: clamp(2.2rem, 4.2vw, 3.8rem);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1.0;
-  color: var(--black);
-}
-.divider { height: 1px; background: var(--border); }
-
-/* ── SERVIÇOS ── */
-#servicos { background: var(--bg); padding-bottom: 0; }
-.svc-head { margin-bottom: 52px; }
-.svc-grid {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  border-top: 1px solid var(--border);
-}
-.svc-card {
-  padding: 40px 32px 44px;
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  position: relative;
-  overflow: hidden;
-  transition: background .28s;
-  cursor: default;
-}
-.svc-card:last-child { border-right: none; }
-.svc-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 2px;
-  background: var(--black);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .4s cubic-bezier(.22,1,.36,1);
-}
-.svc-card:hover::before { transform: scaleX(1); }
-.svc-card:hover { background: var(--bg2); }
-.svc-idx {
-  display: block;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: rgba(0,0,0,0.16);
-  margin-bottom: 28px;
-  transition: color .28s;
-}
-.svc-card:hover .svc-idx { color: rgba(0,0,0,0.36); }
-.svc-name {
-  font-size: 1.05rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--black);
-  margin-bottom: 12px;
-  line-height: 1.25;
-}
-.svc-desc {
-  font-size: 0.83rem;
-  line-height: 1.72;
-  color: rgba(0,0,0,0.42);
+.btn-primary{background:var(--verde);color:white;}
+.btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
 }
 
-/* ── PORTFÓLIO ── */
-#portfolio { background: var(--bg); padding-top: 0; }
-.pf-head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding-top: 80px;
-  padding-bottom: 40px;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-.pf-grid {
-  display: grid;
-  grid-template-columns: repeat(12,1fr);
-  gap: 3px;
-}
-.pf-item {
-  position: relative;
-  overflow: hidden;
-  background: var(--bg3);
-}
-.pf-item:nth-child(1) { grid-column: span 7; aspect-ratio: 16/9; }
-.pf-item:nth-child(2) { grid-column: span 5; aspect-ratio: 4/3; }
-.pf-item:nth-child(3) { grid-column: span 4; aspect-ratio: 4/3; }
-.pf-item:nth-child(4) { grid-column: span 4; aspect-ratio: 4/3; }
-.pf-item:nth-child(5) { grid-column: span 4; aspect-ratio: 4/3; }
-.pf-img {
-  width:100%; height:100%;
-  object-fit: cover;
-  display: block;
-  filter: grayscale(.45) brightness(.9);
-  transition: transform .7s cubic-bezier(.22,1,.36,1), filter .5s;
-}
-.pf-item:hover .pf-img { transform: scale(1.06); filter: grayscale(.8) brightness(.38); }
-.pf-cap {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 20px;
-  opacity: 0;
-  transition: opacity .35s;
-}
-.pf-item:hover .pf-cap { opacity: 1; }
-.pf-name {
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: #fff;
-  margin-bottom: 3px;
-}
-.pf-tag {
-  font-size: 0.67rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-}
-.pf-arr {
-  position: absolute;
-  top: 18px; right: 18px;
-  width: 34px; height: 34px;
-  border: 1px solid rgba(255,255,255,0.28);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.85rem;
-  color: rgba(255,255,255,0.55);
-  transition: border-color .3s, color .3s;
-}
-.pf-item:hover .pf-arr { border-color: rgba(255,255,255,0.65); color:#fff; }
+.btn-outline{border:1px solid var(--azul);color:var(--azul);}
+.btn-outline:hover{background:var(--azul);color:white;}
 
-/* ── DIFERENCIAIS ── */
-#dif {
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
-}
-.dif-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: start;
-  margin-top: 60px;
-}
-.dif-quote {
-  font-size: clamp(1.4rem,2.4vw,1.9rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.38;
-  color: rgba(0,0,0,0.4);
-}
-.dif-quote strong { color: var(--black); }
-.dif-list { display: flex; flex-direction: column; }
-.dif-row {
-  display: flex;
-  gap: 18px;
-  padding: 26px 0;
-  border-bottom: 1px solid var(--border);
-}
-.dif-row:first-child { border-top: 1px solid var(--border); }
-.dif-num {
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  color: rgba(0,0,0,0.18);
-  padding-top: 3px;
-  min-width: 26px;
-}
-.dif-nm {
-  font-size: 0.92rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--black);
-  margin-bottom: 5px;
-}
-.dif-dc {
-  font-size: 0.81rem;
-  line-height: 1.65;
-  color: rgba(0,0,0,0.42);
+/* SEÇÕES */
+.section{padding:100px 10%;}
+.title{text-align:center;margin-bottom:50px;color:var(--azul);font-size:2rem;}
+
+/* GRID */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
 }
 
-/* ── COMO FUNCIONA ── */
-#steps {
-  background: var(--bg);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+/* CARD */
+.card{
+    padding:30px;
+    border:1px solid #eee;
+    border-radius:12px;
+    text-align:center;
+    background:white;
+    transition:.3s;
 }
-.steps-head { margin-bottom: 64px; }
-.steps-grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  border-top: 1px solid var(--border);
-}
-.step {
-  padding: 44px 36px 52px;
-  border-right: 1px solid var(--border);
-}
-.step:last-child { border-right: none; }
-.step-n {
-  font-size: 4.8rem;
-  font-weight: 800;
-  letter-spacing: -0.07em;
-  color: rgba(0,0,0,0.05);
-  line-height: 1;
-  margin-bottom: 28px;
-  user-select: none;
-}
-.step-title {
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--black);
-  margin-bottom: 10px;
-}
-.step-desc {
-  font-size: 0.82rem;
-  line-height: 1.72;
-  color: rgba(0,0,0,0.42);
+.card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 15px 30px rgba(0,0,0,0.08);
 }
 
-/* ── CTA ── */
-#cta {
-  background: var(--black);
-  padding: 112px 6%;
-  position: relative;
-  overflow: hidden;
-}
-#cta::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 52px 52px;
-  pointer-events: none;
-}
-.cta-inner { position: relative; z-index: 1; max-width: 660px; }
-.cta-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
-  margin-bottom: 18px;
-}
-.cta-eyebrow::before { content:''; width:18px; height:1px; background:rgba(255,255,255,0.2); }
-.cta-h {
-  font-size: clamp(2.6rem,5.5vw,4.8rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  line-height: 0.95;
-  color: #fff;
-  margin-bottom: 22px;
-}
-.cta-h .cta-out {
-  -webkit-text-stroke: 1.5px rgba(255,255,255,0.28);
-  color: transparent;
-}
-.cta-sub {
-  font-size: .97rem;
-  color: rgba(255,255,255,0.38);
-  line-height: 1.72;
-  max-width: 420px;
-  margin-bottom: 44px;
-}
-.cta-btns { display:flex; gap:12px; flex-wrap:wrap; }
-.btn-white {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #fff;
-  color: var(--black);
-  text-decoration: none;
-  padding: 15px 32px;
-  border-radius: 6px;
-  font-weight: 700;
-  font-size: 0.88rem;
-  transition: background .2s, transform .15s;
-}
-.btn-white:hover { background: #eee; transform: translateY(-2px); }
-.btn-wpp {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--wpp);
-  color: #fff;
-  text-decoration: none;
-  padding: 15px 32px;
-  border-radius: 6px;
-  font-weight: 700;
-  font-size: 0.88rem;
-  transition: background .2s, transform .15s;
-}
-.btn-wpp:hover { background: var(--wpp2); transform: translateY(-2px); }
+.icon{font-size:30px;margin-bottom:12px;}
 
-/* ── FOOTER ── */
-footer {
-  background: var(--bg2);
-  border-top: 1px solid var(--border);
-  padding: 64px 6% 36px;
+/* PORTFOLIO */
+.portfolio img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:10px;
+    transition:.4s;
 }
-.ft-top {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr 1fr;
-  gap: 56px;
-  margin-bottom: 52px;
-}
-.ft-brand-n {
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: var(--black);
-  margin-bottom: 12px;
-}
-.ft-brand p {
-  font-size: 0.82rem;
-  color: rgba(0,0,0,0.38);
-  line-height: 1.7;
-  max-width: 250px;
-}
-.ft-col h4 {
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: rgba(0,0,0,0.28);
-  margin-bottom: 16px;
-}
-.ft-col ul { list-style:none; display:flex; flex-direction:column; gap:9px; }
-.ft-col a {
-  font-size: 0.84rem;
-  font-weight: 500;
-  color: rgba(0,0,0,0.42);
-  text-decoration: none;
-  transition: color .2s;
-}
-.ft-col a:hover { color: var(--black); }
-.ft-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 26px;
-  border-top: 1px solid var(--border);
-  flex-wrap: wrap;
-  gap: 12px;
-}
-.ft-bottom p { font-size: 0.73rem; color: rgba(0,0,0,0.28); }
-.ft-ub { font-size: 0.73rem; color: rgba(0,0,0,0.22); }
-.ft-ub span { color: var(--ubuild); }
+.portfolio img:hover{transform:scale(1.03);}
 
-/* ── WHATSAPP FAB ── */
-.wpp-fab {
-  position: fixed;
-  bottom: 28px; right: 28px;
-  width: 54px; height: 54px;
-  background: var(--wpp);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 400;
-  text-decoration: none;
-  box-shadow: 0 4px 18px rgba(37,211,102,.3);
-  transition: transform .25s;
-  animation: wppP 2.5s infinite;
-}
-.wpp-fab:hover { transform: scale(1.09); }
-.wpp-fab svg { width:24px; height:24px; fill:#fff; }
-@keyframes wppP {
-  0%,100% { box-shadow: 0 4px 18px rgba(37,211,102,.3); }
-  50%      { box-shadow: 0 4px 28px rgba(37,211,102,.55), 0 0 0 8px rgba(37,211,102,.07); }
+/* FOOTER */
+footer{
+    background:#0f172a;
+    color:white;
+    text-align:center;
+    padding:60px 20px;
 }
 
-/* ── POPUP OVERLAY ── */
-#overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9000;
-
-  display: flex;
-  align-items: flex-start; /* 👈 muda isso */
-  justify-content: center;
-
-  padding: 40px 20px; /* 👈 mais espaço */
-
-  overflow-y: auto; /* 👈 permite scroll */
-
-  backdrop-filter: blur(20px) brightness(0.85) saturate(0.7);
-  -webkit-backdrop-filter: blur(20px) brightness(0.85) saturate(0.7);
-
-  background: rgba(255,255,255,0.38);
-
-  transition: opacity .45s cubic-bezier(.22,1,.36,1);
+/* WHATS */
+.whatsapp{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:var(--verde);
+    padding:16px;
+    border-radius:50%;
+    color:white;
+    text-decoration:none;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+    transition:.3s;
 }
+.whatsapp:hover{transform:scale(1.1);}
 
-#overlay.hide {
-  opacity: 0;
-  pointer-events: none;
+/* POPUP */
+.popup-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.75);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    pointer-events:none;
+    transition:.4s;
 }
-
-.popup {
-  background: #fff;
-  border: 1px solid rgba(0,0,0,0.09);
-  border-radius: 18px;
-  max-width: 472px;
-  width: 100%;
-  overflow: hidden;
-  box-shadow:
-    0 0 0 1px rgba(0,0,0,0.03),
-    0 32px 96px rgba(0,0,0,0.13),
-    0 8px 28px rgba(0,0,0,0.07);
-  animation: popIn .42s cubic-bezier(.22,1,.36,1) both;
-  max-height: 90vh;
-overflow-y: auto; 
-}
-@keyframes popIn {
-  from { opacity:0; transform: scale(.93) translateY(22px); }
-  to   { opacity:1; transform: scale(1)   translateY(0); }
+.popup-overlay.active{
+    opacity:1;
+    pointer-events:auto;
 }
 
-/* popup top bar */
-.popup-hd {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
-  border-bottom: 1px solid rgba(0,0,0,0.07);
-  background: var(--black);
-}
-.popup-logo {
-  font-size: 1rem;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: #fff;
-}
-.popup-logo span { color: var(--ubuild); }
-.popup-live {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.28);
-}
-.popup-live::before {
-  content:'';
-  width:6px; height:6px;
-  border-radius:50%;
-  background: var(--ubuild);
-  animation: blink 1.4s infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
-
-/* popup body */
-.popup-bd { padding: 22px 20px 16px; }
-.popup-badge {
-  display: inline-block;
-  background: rgba(255,92,26,0.08);
-  color: var(--ubuild);
-  border: 1px solid rgba(255,92,26,0.2);
-  font-size: 0.58rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 4px;
-  margin-bottom: 14px;
-}
-.popup-title {
-  font-size: 1.38rem;
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 1.18;
-  color: var(--black);
-  margin-bottom: 10px;
-}
-.popup-desc {
-  font-size: 0.83rem;
-  color: rgba(0,0,0,0.44);
-  line-height: 1.66;
-  margin-bottom: 22px;
+.popup-box{
+    background:#111;
+    color:white;
+    padding:40px;
+    border-radius:14px;
+    width:90%;
+    max-width:400px;
+    text-align:center;
+    position:relative;
+    animation:fadeUp .5s;
 }
 
-/* form */
-.p-form { display:flex; flex-direction:column; gap:10px; }
-.p-input {
-  width: 100%;
-  padding: 11px 14px;
-  border: 1.5px solid rgba(0,0,0,0.11);
-  border-radius: 8px;
-  font-family: var(--font);
-  font-size: 0.86rem;
-  color: var(--black);
-  background: var(--bg2);
-  outline: none;
-  transition: border-color .2s, background .2s;
-}
-.p-input:focus { border-color: rgba(0,0,0,0.42); background: #fff; }
-.p-input::placeholder { color: rgba(0,0,0,0.28); }
-.p-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-
-.p-check {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  cursor: pointer;
-  margin-top: 2px;
-}
-.p-check input[type=checkbox] {
-  width: 15px; height: 15px;
-  min-width: 15px;
-  accent-color: var(--black);
-  margin-top: 2px;
-  cursor: pointer;
-}
-.p-check span {
-  font-size: 0.78rem;
-  color: rgba(0,0,0,0.36);
-  line-height: 1.55;
+/* LOGO AJUSTADA */
+.popup-logo{
+    width:140px;
+    margin-bottom:25px;
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.4));
 }
 
-.btn-submit {
-  width: 100%;
-  background: var(--black);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 13px 20px;
-  font-family: var(--font);
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: background .2s, transform .14s;
-  margin-top: 4px;
+.popup-box input{
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+    border:none;
+    border-radius:6px;
+    background:#222;
+    color:white;
 }
-.btn-submit:hover { background: #1e1e1e; transform: translateY(-1px); }
 
-/* popup footer */
-.popup-ft {
-  padding: 14px 24px 22px;
-  border-top: 1px solid rgba(0,0,0,0.06);
-  text-align: center;
+.popup-box button{
+    width:100%;
+    padding:12px;
+    background:white;
+    color:black;
+    border:none;
+    border-radius:6px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
 }
-.popup-fine {
-  font-size: 0.71rem;
-  color: rgba(0,0,0,0.28);
-  line-height: 1.55;
-}
-.popup-fine strong { color: rgba(0,0,0,0.4); }
+.popup-box button:hover{background:#ddd;}
 
-/* ── RESPONSIVE ── */
-@media (max-width: 1024px) {
-  .svc-grid { grid-template-columns: repeat(2,1fr); }
-  .stats-row { grid-template-columns: repeat(2,1fr); }
-  .steps-grid { grid-template-columns: 1fr; }
-  .step { border-right: none; border-bottom: 1px solid var(--border); }
-  .step:last-child { border-bottom: none; }
-  .dif-layout { grid-template-columns: 1fr; gap: 48px; }
+.close-btn{
+    position:absolute;
+    right:20px;
+    top:15px;
+    cursor:pointer;
+    font-size:20px;
 }
-@media (max-width: 768px) {
-  .nav-links { display: none; }
-  .svc-grid { grid-template-columns: 1fr; }
-  .pf-item:nth-child(n) { grid-column: span 12; aspect-ratio: 16/9; }
-  .hero-photo { display: none; }
-  .ft-top { grid-template-columns: 1fr; gap: 32px; }
-  .p-row { grid-template-columns: 1fr; }
-  .stats-row { grid-template-columns: repeat(2,1fr); }
+
+.ubuild-note{
+    font-size:11px;
+    color:#aaa;
+    margin-top:15px;
+    line-height:1.4;
 }
-body.lock {
-  overflow: hidden;
+
+/* ANIMAÇÃO */
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px);}
+    to{opacity:1;transform:translateY(0);}
 }
+
 </style>
 </head>
+
 <body>
 
-<!-- WATERMARK -->
-<div id="wm" class="on"><div id="wm-grid"></div></div>
-
-<!-- POPUP -->
-<div id="overlay">
-  <div class="popup">
-    <div class="popup-hd">
-      <div class="popup-logo">
-<img src="logo-white.png" alt="Ubuild" style="height:22px; display:block;"></div>
-      <div class="popup-live">Prévia ao vivo</div>
-    </div>
-    <div class="popup-bd">
-      <div class="popup-badge">Prévia criada pela Ubuild</div>
-      <div class="popup-title">
-Seu site profissional já está pronto.
-</div>
-
-<p class="popup-desc">
-Criamos essa prévia personalizada para mostrar como sua empresa pode atrair clientes online.<br><br>
-Preencha os dados para liberar o acesso completo.<br><br>
-<strong>A versão final sem marca d’água e publicada depende de contratação.</strong>
-</p>
-      <p class="popup-desc">Esta é uma prévia demonstrativa de site criada pela Ubuild para mostrar como sua empresa pode captar mais pedidos de orçamento online.<br><br>Para visualizar, preencha seus dados abaixo e autorize nosso contato.</p>
-     <form class="p-form" onsubmit="submitForm(event)">
-
-<input class="p-input" type="text" name="nome" placeholder="Nome completo" required>
-
-<input class="p-input" type="text" name="empresa" placeholder="Nome da empresa (opcional)">
-
-<div class="p-row">
-  <input class="p-input" type="tel" name="telefone" placeholder="WhatsApp" required>
-  <input class="p-input" type="email" name="email" placeholder="E-mail" required>
-</div>
-
-<input class="p-input" type="text" name="cidade" placeholder="Cidade / Região">
-
-<select class="p-input" name="servico" required>
-  <option value="">Qual tipo de site você precisa?</option>
-  <option>Site institucional</option>
-  <option>Landing page</option>
-  <option>Loja virtual</option>
-  <option>Outro</option>
-</select>
-
-<textarea class="p-input" name="mensagem" placeholder="Fale sobre seu projeto..." rows="3"></textarea>
-
-  <label class="p-check">
-    <input type="checkbox" required>
-    <span>Autorizo contato da Ubuild via WhatsApp e e-mail.</span>
-  </label>
-
-  <button type="submit" class="btn-submit">
-    Visualizar prévia
-  </button>
-
-</form>
-    </div>
-    <div class="popup-ft">
-      <p class="popup-fine">Esta página é apenas uma demonstração. A publicação em domínio próprio, personalização completa e ajustes finais <strong>dependem de contratação.</strong></p>
-    </div>
-  </div>
-</div>
-
-<!-- UBUILD BAR -->
-<div class="ub-bar">
-  <div class="ub-logo">u<span>build</span></div>
-  <div class="ub-pill">Prévia demonstrativa — não publicada</div>
-</div>
-
-<!-- NAV -->
 <nav>
-  <div class="nav-brand">AP Engenharia</div>
-  <ul class="nav-links">
-    <li><a href="#servicos">Serviços</a></li>
-    <li><a href="#portfolio">Projetos</a></li>
-    <li><a href="#dif">Diferenciais</a></li>
-    <li><a href="#steps">Como funciona</a></li>
-    <li><a href="#" class="nav-cta">Orçamento</a></li>
-  </ul>
+<strong>AP Engenharia</strong>
+<div>
+<a href="#servicos">Serviços</a>
+<a href="#projetos">Projetos</a>
+</div>
 </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <img class="hero-photo" src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1400&q=85" alt="">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Belo Horizonte e Região</div>
-    <h1 class="hero-h1">
-      Engenharia<br>
-      <span class="outline">e arquitetura</span>
-      profissional
-    </h1>
-    <p class="hero-sub">Projetos, reformas e regularizações com atendimento personalizado do início ao fim da obra.</p>
-    <div class="hero-btns">
-      <a href="#" class="btn-black">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.091.534 4.1 1.563 5.876L.057 23.25c-.072.277.172.52.45.45l5.374-1.506A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.985 0-3.9-.535-5.566-1.549l-.399-.237-4.136 1.159 1.16-4.033-.26-.414A9.804 9.804 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
-        Pedir orçamento
-      </a>
-      <a href="#portfolio" class="btn-outline-b">Ver projetos →</a>
-    </div>
-  </div>
-  <div class="hero-scroll"><div class="scroll-bar"></div>Rolar para ver</div>
-</section>
+<section class="hero">
+<div class="hero-content">
+<h1>Engenharia com execução profissional</h1>
+<p>Projetos, reformas e obras com qualidade e confiança</p>
 
-<!-- STATS -->
-<div id="stats">
-  <div class="stats-row">
-    <div class="stat"><div class="stat-n">8<sup>+</sup></div><div class="stat-l">Anos de experiência no mercado</div></div>
-    <div class="stat"><div class="stat-n">200<sup>+</sup></div><div class="stat-l">Projetos entregues em BH e região</div></div>
-    <div class="stat"><div class="stat-n">98<sup>%</sup></div><div class="stat-l">Taxa de satisfação dos clientes</div></div>
-    <div class="stat"><div class="stat-n">4</div><div class="stat-l">Especialidades: projetos, reformas, obras e regularizações</div></div>
-  </div>
+<a href="https://wa.me/5511911300955" class="btn btn-primary">Orçamento</a>
+<a href="#projetos" class="btn btn-outline">Projetos</a>
 </div>
-
-<!-- SERVIÇOS -->
-<section id="servicos">
-  <div class="svc-head">
-    <div class="eyebrow">O que fazemos</div>
-    <h2 class="sec-title">Nossos<br>serviços</h2>
-  </div>
-  <div class="svc-grid">
-    <div class="svc-card"><span class="svc-idx">01</span><div class="svc-name">Projetos Arquitetônicos</div><p class="svc-desc">Projetos completos com desenhos, memoriais e especificações técnicas para garantir segurança e qualidade na execução.</p></div>
-    <div class="svc-card"><span class="svc-idx">02</span><div class="svc-name">Reformas Residenciais</div><p class="svc-desc">Reformas com planejamento detalhado, controle rigoroso e execução profissional do início ao fim da obra.</p></div>
-    <div class="svc-card"><span class="svc-idx">03</span><div class="svc-name">Regularizações</div><p class="svc-desc">Regularizações residenciais e comerciais com agilidade, atendendo à necessidade e urgência de cada cliente.</p></div>
-    <div class="svc-card"><span class="svc-idx">04</span><div class="svc-name">Obras Comerciais</div><p class="svc-desc">Obras executadas com planejamento e controle, visando qualidade, segurança e cumprimento de prazos.</p></div>
-  </div>
 </section>
 
-<div class="divider"></div>
+<section class="section" id="servicos">
+<h2 class="title">Serviços</h2>
+<div class="grid">
 
-<!-- PORTFÓLIO -->
-<section id="portfolio" style="padding-top:0;padding-bottom:0;">
-  <div class="pf-head" style="padding-left:0;padding-right:0;">
-    <div>
-      <div class="eyebrow">Nosso portfólio</div>
-      <h2 class="sec-title">Projetos<br>realizados</h2>
-    </div>
-    <a href="#" class="btn-outline-b" style="align-self:flex-end;">Ver Instagram →</a>
-  </div>
-  <div class="pf-grid">
-    <div class="pf-item"><img class="pf-img" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=900&q=80" alt=""><div class="pf-cap"><div class="pf-name">Residência Moderna</div><div class="pf-tag">Projeto Arquitetônico · BH</div></div><div class="pf-arr">↗</div></div>
-    <div class="pf-item"><img class="pf-img" src="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=700&q=80" alt=""><div class="pf-cap"><div class="pf-name">Reforma Completa</div><div class="pf-tag">Reforma · Belo Horizonte</div></div><div class="pf-arr">↗</div></div>
-    <div class="pf-item"><img class="pf-img" src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" alt=""><div class="pf-cap"><div class="pf-name">Espaço Comercial</div><div class="pf-tag">Obra Comercial · BH</div></div><div class="pf-arr">↗</div></div>
-    <div class="pf-item"><img class="pf-img" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80" alt=""><div class="pf-cap"><div class="pf-name">Interiores</div><div class="pf-tag">Projeto · Nova Lima</div></div><div class="pf-arr">↗</div></div>
-    <div class="pf-item"><img class="pf-img" src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80" alt=""><div class="pf-cap"><div class="pf-name">Casa Alto Padrão</div><div class="pf-tag">Projeto + Obra · BH</div></div><div class="pf-arr">↗</div></div>
-  </div>
+<div class="card"><div class="icon">🏗️</div><h3>Projetos</h3></div>
+<div class="card"><div class="icon">🛠️</div><h3>Reformas</h3></div>
+<div class="card"><div class="icon">📄</div><h3>Regularizações</h3></div>
+<div class="card"><div class="icon">🏢</div><h3>Obras comerciais</h3></div>
+
+</div>
 </section>
 
-<div class="divider"></div>
-
-<!-- DIFERENCIAIS -->
-<section id="dif">
-  <div class="eyebrow">Nossos diferenciais</div>
-  <h2 class="sec-title">Por que a<br>AP Engenharia?</h2>
-  <div class="dif-layout">
-    <div>
-      <p class="dif-quote">Trabalhamos com <strong>dedicação total</strong> em cada projeto, garantindo que cada detalhe seja <strong>executado com precisão</strong> e entregue no prazo combinado.</p>
-    </div>
-    <div class="dif-list">
-      <div class="dif-row"><span class="dif-num">01</span><div><div class="dif-nm">Atendimento Próximo</div><p class="dif-dc">Acompanhamento personalizado em cada etapa, com comunicação direta e transparente.</p></div></div>
-      <div class="dif-row"><span class="dif-num">02</span><div><div class="dif-nm">Soluções Personalizadas</div><p class="dif-dc">Cada projeto é único. Desenvolvemos soluções sob medida para cada cliente.</p></div></div>
-      <div class="dif-row"><span class="dif-num">03</span><div><div class="dif-nm">Compromisso com Qualidade</div><p class="dif-dc">Buscamos excelência em cada detalhe, do projeto à entrega final.</p></div></div>
-      <div class="dif-row"><span class="dif-num">04</span><div><div class="dif-nm">Experiência Comprovada</div><p class="dif-dc">Equipe técnica qualificada com ampla experiência em projetos residenciais e comerciais.</p></div></div>
-    </div>
-  </div>
+<section class="section portfolio" id="projetos">
+<h2 class="title">Projetos</h2>
+<div class="grid">
+<img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e">
+<img src="https://images.unsplash.com/photo-1484154218962-a197022b5858">
+</div>
 </section>
 
-<!-- COMO FUNCIONA -->
-<section id="steps">
-  <div class="steps-head">
-    <div class="eyebrow">Processo</div>
-    <h2 class="sec-title">Como funciona</h2>
-  </div>
-  <div class="steps-grid">
-    <div class="step"><div class="step-n">01</div><div class="step-title">Contato Inicial</div><p class="step-desc">Entre em contato pelo WhatsApp. Conversamos sobre seu projeto, necessidades e objetivos para entender o que você precisa.</p></div>
-    <div class="step"><div class="step-n">02</div><div class="step-title">Entendimento do Projeto</div><p class="step-desc">Nossa equipe analisa o projeto, elabora a proposta e apresenta o planejamento completo com prazos e valores.</p></div>
-    <div class="step"><div class="step-n">03</div><div class="step-title">Execução e Entrega</div><p class="step-desc">Executamos com excelência e acompanhamento constante. Entregamos o resultado que você merece, no prazo.</p></div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section id="cta">
-  <div class="cta-inner">
-    <div class="cta-eyebrow">Vamos começar?</div>
-    <h2 class="cta-h">Tire seu projeto<br><span class="cta-out">do papel</span></h2>
-    <p class="cta-sub">Fale com a gente e receba seu orçamento sem compromisso. Atendemos em Belo Horizonte e região.</p>
-    <div class="cta-btns">
-      <a href="#" class="btn-wpp">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.091.534 4.1 1.563 5.876L.057 23.25c-.072.277.172.52.45.45l5.374-1.506A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.985 0-3.9-.535-5.566-1.549l-.399-.237-4.136 1.159 1.16-4.033-.26-.414A9.804 9.804 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
-        Falar no WhatsApp
-      </a>
-      <a href="#servicos" class="btn-white">Ver serviços →</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
 <footer>
-  <div class="ft-top">
-    <div class="ft-brand">
-      <div class="ft-brand-n">AP Engenharia</div>
-      <p>Engenharia e arquitetura com qualidade e execução profissional. Atendimento em Belo Horizonte e região.</p>
-    </div>
-    <div class="ft-col">
-      <h4>Serviços</h4>
-      <ul>
-        <li><a href="#">Projetos Arquitetônicos</a></li>
-        <li><a href="#">Reformas Residenciais</a></li>
-        <li><a href="#">Regularizações</a></li>
-        <li><a href="#">Obras Comerciais</a></li>
-      </ul>
-    </div>
-    <div class="ft-col">
-      <h4>Contato</h4>
-      <ul>
-        <li><a href="#">(31) 98561-9481</a></li>
-        <li><a href="#">@ap.engenharia</a></li>
-        <li><a href="#">Belo Horizonte — MG</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="ft-bottom">
-    <p>© 2025 AP Engenharia. Todos os direitos reservados.</p>
-    <p class="ft-ub">Prévia criada por <span>ubuild</span></p>
-  </div>
+<p><strong>AP Engenharia</strong></p>
+<p>Atendimento em Belo Horizonte e região</p>
 </footer>
 
-<!-- WhatsApp FAB -->
-<a href="#" class="wpp-fab" title="WhatsApp">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.091.534 4.1 1.563 5.876L.057 23.25c-.072.277.172.52.45.45l5.374-1.506A11.944 11.944 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-1.985 0-3.9-.535-5.566-1.549l-.399-.237-4.136 1.159 1.16-4.033-.26-.414A9.804 9.804 0 012.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
-</a>
+<a href="https://wa.me/5511911300955" class="whatsapp">💬</a>
+
+<!-- POPUP -->
+<div id="popup" class="popup-overlay">
+<div class="popup-box">
+
+<span class="close-btn" onclick="fecharPopup()">×</span>
+
+<!-- LOGO AQUI -->
+<img src="logo-white.png" class="popup-logo">
+
+<h2>Solicite seu orçamento</h2>
+
+<form onsubmit="enviarWhats(event)">
+<input type="text" placeholder="Nome" required>
+<input type="text" placeholder="WhatsApp" required>
+<input type="text" placeholder="Empresa">
+<input type="email" placeholder="Email" required>
+
+<button type="submit">Solicitar orçamento no WhatsApp</button>
+
+<p class="ubuild-note">
+Este site é uma prévia desenvolvida pela Ubuild. Para a versão completa, entre em contato.
+</p>
+</form>
+
+</div>
+</div>
 
 <script>
-    document.body.classList.add('lock');
-/* build watermark cells */
-(function(){
-  const g = document.getElementById('wm-grid');
-  for(let i=0;i<84;i++){
-    const c = document.createElement('div');
-    c.className='wm-cell';
-    c.innerHTML='<span class="wm-word">UBUILD</span><span class="wm-dot"></span><span class="wm-word">PREVIEW</span>';
-    g.appendChild(c);
-  }
-})();
 
-/* form submit */
-function submitForm(e){
-  e.preventDefault();
-
-  // pega o formulário
-  const form = e.target;
-
-  // pega os valores
-  const nome = form.nome.value;
-  const empresa = form.empresa.value;
-  const telefone = form.telefone.value;
-  const email = form.email.value;
-  const cidade = form.cidade.value;
-  const servico = form.servico.value;
-  const mensagem = form.mensagem.value;
-
-  // monta mensagem
-  const texto =
-`Nova lead da prévia Ubuild 🚀
-
-👤 Nome: ${nome}
-🏢 Empresa: ${empresa}
-📱 WhatsApp: ${telefone}
-📧 Email: ${email}
-📍 Cidade: ${cidade}
-💼 Serviço: ${servico}
-
-📝 Projeto:
-${mensagem}`;
-
-  // número (SEM espaço e sem símbolo)
-  const numero = "5511911300955";
-
-  // cria link do WhatsApp
-  const url = `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
-
-  // abre WhatsApp
-  window.open(url, "_blank");
-
-  // fecha popup
-  const ov = document.getElementById('overlay');
-  ov.classList.add('hide');
-
-  setTimeout(()=>{
-    ov.style.display='none';
-  },460);
-
-  document.body.classList.remove('lock');
+window.onload = () => {
+setTimeout(() => {
+document.getElementById("popup").classList.add("active");
+}, 800);
 }
 
-/* scroll fade-in */
-const io=new IntersectionObserver(entries=>{
-  entries.forEach(en=>{
-    if(en.isIntersecting){
-      en.target.style.opacity='1';
-      en.target.style.transform='translateY(0)';
-    }
-  });
-},{threshold:0.08});
+function fecharPopup(){
+document.getElementById("popup").classList.remove("active");
+}
 
-document.querySelectorAll('.svc-card,.stat,.dif-row,.step,.pf-item').forEach(el=>{
-  el.style.cssText+='opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s ease;';
-  io.observe(el);
-});
+function enviarWhats(e){
+e.preventDefault();
+
+let nome = document.querySelector('input[placeholder="Nome"]').value;
+let tel = document.querySelector('input[placeholder="WhatsApp"]').value;
+let emp = document.querySelector('input[placeholder="Empresa"]').value;
+let email = document.querySelector('input[placeholder="Email"]').value;
+
+let msg = `Olá, vim pelo site da AP Engenharia!
+
+Nome: ${nome}
+WhatsApp: ${tel}
+Empresa: ${emp}
+Email: ${email}
+
+Gostaria de solicitar um orçamento.`;
+
+window.open(`https://wa.me/5511911300955?text=${encodeURIComponent(msg)}`);
+}
+
 </script>
+
 </body>
 </html>
